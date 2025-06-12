@@ -1,39 +1,21 @@
-import java.util.*;
-public class Main1{
-public static void matt(int[][]matrix){
-    if(matrix.length==0)return;
-    int top=0;
-    int bottom=matrix.length-1;
-    int left=0;
-    int right=matrix[0].length-1;
-    while(top<=bottom&&left<=right){
-        for(int i=left;i<=right;i++)
-        System.out.println(matrix[top][i])+";
-        top++;
-        for(int i=top;i<=bottom;i++)
-        System.out.println(matrix[i][right])+";
-        right--;
-        if(top<=bottom){
-            for(int i=right;i>=left;i--)
-            System.out.println(matrix[bottom][i]+"");
-            bottom--;
+public int lengthOfLongestSubstring(String s) {
+    Map<Character, Integer> map = new HashMap<>();
+    int i = 0, max = 0;
+    for (int j = 0; j < s.length(); j++) {
+        char c = s.charAt(j);
+        map.put(c, map.getOrDefault(c, 0) + 1);
+        
+        // If duplicate detected, shrink from left
+        while (map.get(c) > 1) {
+            char leftChar = s.charAt(i);
+            map.put(leftChar, map.get(leftChar) - 1);
+            if (map.get(leftChar) == 0) {
+                map.remove(leftChar);
+            }
+            i++;
         }
-        if(left<=right){
-            for(int i=bottom;i>=top;i--)
-            System.out.println(matrix[i][left]+"");
-            left++;
-        }
-        }
+        
+        max = Math.max(max, j - i + 1);
     }
-public static void main(String[]args){
-    int[][]matrix={
-        {1,2,3,4},
-        {5,6,7,8},
-        {9,10,11,12},
-        {13,14,15,16},
-    };
-    matt(matrix);
-}
-}
-    }
+    return max;
 }
